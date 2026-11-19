@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Geovane Morais — Dev & Segurança Ofensiva</title>
+<meta name="description" content="Portfólio de Geovane Morais de Sousa: desenvolvimento de software em C# e segurança ofensiva.">
+<style>
+:root{color-scheme:dark;--bg:#070b07;--panel:rgba(14,24,14,.78);--line:#1d3a1f;--g:#39ff7a;--g2:#9be8b5;--tx:#cfe8d6;--mut:#7fa08a;--warn:#ffb454;--red:#ff5f56;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:60px;scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.65 ui-monospace,"SF Mono",Menlo,Consolas,monospace;overflow-x:hidden}
+#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.22;pointer-events:none}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9;background:repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 1px,transparent 1px 3px);opacity:.35}
+a{color:var(--g);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px;position:relative;z-index:2}
+#bar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--g);box-shadow:0 0 10px var(--g);z-index:20}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:rgba(7,11,7,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
+nav .wrap{display:flex;gap:18px;padding:12px 20px;overflow-x:auto;white-space:nowrap;font-size:14px}
+nav b{color:var(--g)}nav a{color:var(--mut)}nav a.on{color:var(--g);text-shadow:0 0 8px var(--g)}
+section{padding:54px 0 6px}
+h2{font-size:19px;color:var(--g);margin:0 0 20px;text-shadow:0 0 10px rgba(57,255,122,.35)}
+h2::before{content:"## ";color:var(--mut)}
+.hero{padding-top:64px;min-height:78vh}
+.prompt{color:var(--mut);font-size:14px}.prompt i{color:var(--g);font-style:normal}
+h1{font-size:clamp(30px,8vw,52px);line-height:1.1;margin:10px 0;color:#fff;position:relative;display:inline-block}
+h1::before,h1::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;overflow:hidden;opacity:.7}
+h1::before{color:#0ff;clip-path:inset(0 0 60% 0);transform:translate(-2px,0);animation:gl 4s infinite steps(1)}
+h1::after{color:#f0f;clip-path:inset(55% 0 0 0);transform:translate(2px,0);animation:gl 4s infinite steps(1) .15s}
+@keyframes gl{0%,92%,100%{opacity:0}93%,96%{opacity:.7}}
+.role{font-size:clamp(16px,4vw,21px);color:var(--g2);min-height:1.8em}
+.cur{display:inline-block;width:.6ch;background:var(--g);animation:b 1s steps(2) infinite;margin-left:2px}
+@keyframes b{50%{opacity:0}}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.btn{border:1px solid var(--g);padding:10px 18px;border-radius:4px;font-size:14px;transition:.2s}
+.btn.f{background:var(--g);color:#04120a;font-weight:700}
+.btn:hover{text-decoration:none;box-shadow:0 0 18px rgba(57,255,122,.55);transform:translateY(-2px)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin:26px 0 0}
+.stat{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:14px;text-align:center}
+.stat b{display:block;font-size:30px;color:var(--g);text-shadow:0 0 12px rgba(57,255,122,.5)}
+.stat span{font-size:12px;color:var(--mut)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:20px;transition:.25s;backdrop-filter:blur(4px)}
+.card:hover{border-color:var(--g);box-shadow:0 0 22px rgba(57,255,122,.2);transform:translateY(-4px)}
+.card h3{margin:4px 0 6px;font-size:17px;color:#fff}
+.card p{margin:6px 0;font-size:15px}
+.tag{display:inline-block;font-size:12px;border:1px solid var(--line);color:var(--g2);padding:2px 9px;border-radius:3px;margin:8px 6px 0 0;transition:.2s}
+.tag:hover{border-color:var(--g);color:var(--g);text-decoration:none;background:rgba(57,255,122,.08)}
+.st{font-size:12px;color:var(--warn)}.st.ok{color:var(--g)}
+.term{background:#050805;border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 0 28px rgba(57,255,122,.12)}
+.tb{display:flex;gap:7px;align-items:center;padding:9px 12px;background:#0d150d;border-bottom:1px solid var(--line);font-size:12px;color:var(--mut)}
+.tb i{width:11px;height:11px;border-radius:50%;background:var(--red)}.tb i:nth-child(2){background:var(--warn)}.tb i:nth-child(3){background:var(--g)}
+#out{padding:14px;height:300px;overflow-y:auto;font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+#out .c{color:var(--g)}#out .m{color:var(--mut)}
+.in{display:flex;gap:8px;padding:0 14px 14px;font-size:14px}
+.in span{color:var(--g)}
+#cmd{flex:1;background:none;border:0;outline:0;color:#fff;font:inherit;min-width:0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;padding:0 14px 14px}
+.chips button{background:none;border:1px solid var(--line);color:var(--g2);font:inherit;font-size:12px;padding:3px 10px;border-radius:3px;cursor:pointer}
+.chips button:hover{border-color:var(--g);color:var(--g)}
+.tl{border-left:1px solid var(--line);padding-left:20px}
+.tl div{margin-bottom:18px;position:relative}
+.tl div::before{content:"";position:absolute;left:-25px;top:8px;width:9px;height:9px;background:var(--g);border-radius:50%;box-shadow:0 0 10px var(--g)}
+.tl small{color:var(--mut);display:block}.tl strong{color:#fff}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}.rv.in2{opacity:1;transform:none}
+#top{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:12;background:var(--bg);border:1px solid var(--g);color:var(--g);width:42px;height:42px;border-radius:50%;font-size:18px;cursor:pointer;opacity:0;pointer-events:none;transition:.3s}
+#top.s{opacity:1;pointer-events:auto}
+footer{margin-top:56px;border-top:1px solid var(--line);padding:24px 0 34px;color:var(--mut);font-size:13px;text-align:center;position:relative;z-index:2}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}#rain{display:none}}
+</style>
+</head>
+<body>
+<canvas id="rain"></canvas><div id="bar"></div>
+<nav><div class="wrap"><b>geovane@portfolio:~$</b><a href="#sobre">sobre</a><a href="#terminal">terminal</a><a href="#projetos">projetos</a><a href="#skills">skills</a><a href="#trajetoria">trajetória</a><a href="#contato">contato</a></div></nav>
+
+<main class="wrap">
+<section class="hero">
+<div class="prompt"><i>$</i> sudo ./apresentar --perfil</div>
+<h1 data-t="Geovane Morais">Geovane Morais</h1>
+<div class="role"><span id="typed"></span><span class="cur">&nbsp;</span></div>
+<p style="max-width:640px;margin-top:14px">Construo sistemas em C# e estudo segurança ofensiva. Gosto de entender como as coisas funcionam por baixo, de redes e protocolos até a regra de negócio, e usar isso para criar software mais robusto.</p>
+<div class="btns"><a class="btn f" href="#projetos">Ver projetos</a><a class="btn" href="https://github.com/fawkesenginner">GitHub</a><a class="btn" href="https://www.linkedin.com/in/geovanemorais37">LinkedIn</a><a class="btn" href="mailto:geovanemorais127@gmail.com">E-mail</a></div>
+<div class="stats">
+<div class="stat"><b data-n="6">0</b><span>experiências profissionais</span></div>
+<div class="stat"><b data-n="4">0</b><span>setores de atuação</span></div>
+<div class="stat"><b data-n="2">0</b><span>projetos em andamento</span></div>
+<div class="stat"><b data-n="3">0</b><span>áreas: dev · sec · infra</span></div>
+</div>
+</section>
+
+<section id="sobre" class="rv">
+<h2>sobre</h2>
+<p>Moro em Itaúna – MG. Curso Engenharia de Software na UniCesumar e faço a formação em Pentest e Segurança Ofensiva na DESEC Security. Tenho também formação técnica em Logística (SENAC) e experiência em distribuição, indústria automotiva, fundição e telecomunicações, o que me deu disciplina de processo, atenção a detalhes e hábito de trabalhar em equipe.</p>
+<p>Meu foco é a interseção entre desenvolvimento e segurança: redes TCP/IP, boa arquitetura e a visão do atacante para escrever código mais robusto.</p>
+</section>
+
+<section id="terminal" class="rv">
+<h2>terminal</h2>
+<div class="term"><div class="tb"><i></i><i></i><i></i>&nbsp;geovane@portfolio: ~</div>
+<div id="out"></div>
+<div class="chips"><button>help</button><button>about</button><button>skills</button><button>projects</button><button>contact</button></div>
+<div class="in"><span>$</span><input id="cmd" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="digite um comando…" aria-label="comando"></div></div>
+</section>
+
+<section id="projetos" class="rv">
+<h2>projetos</h2>
+<div class="grid">
+<div class="card"><span class="st ok">● em desenvolvimento</span><h3>CoreX-SCE</h3>
+<p>Sistema de gestão empresarial para pequenas e médias empresas, com arquitetura em camadas, desenvolvido em C# (WinForms).</p>
+<p style="color:var(--mut)">Aprendizado-chave: projetar regras de negócio e camada de dados antes da interface.</p>
+<span class="tag">C#</span><span class="tag">WinForms</span><span class="tag">Camadas</span><a class="tag" href="https://github.com/fawkesenginner/CoreX-SCE">Ver no GitHub →</a></div>
+<div class="card"><span class="st">● em planejamento</span><h3>Homelab de Pentest</h3>
+<p>Laboratório pessoal com Proxmox VE e pfSense, redes segmentadas por VLAN para isolar atacante e vítima e treinar técnicas ofensivas com segurança.</p>
+<span class="tag">Proxmox</span><span class="tag">pfSense</span><span class="tag">VLAN</span><span class="tag">Redes</span></div>
+</div>
+</section>
+
+<section id="skills" class="rv">
+<h2>skills</h2>
+<div class="grid">
+<div class="card"><h3>&lt;Desenvolvimento/&gt;</h3><span class="tag">C#</span><span class="tag">.NET</span><span class="tag">WinForms</span><span class="tag">Git/GitHub</span><span class="tag">Arquitetura</span></div>
+<div class="card"><h3>#Segurança</h3><span class="tag">Pentest</span><span class="tag">Segurança ofensiva</span><span class="tag">TCP/IP</span><span class="tag">Laboratórios</span></div>
+<div class="card"><h3>$Infra &amp; Redes</h3><span class="tag">Proxmox</span><span class="tag">pfSense</span><span class="tag">VLAN</span><span class="tag">Telecom</span><span class="tag">Hardware de PC</span></div>
+<div class="card"><h3>@Idiomas</h3><span class="tag">Inglês intermediário</span><span class="tag">Espanhol básico</span></div>
+</div>
+</section>
+
+<section id="trajetoria" class="rv">
+<h2>trajetória</h2>
+<div class="tl">
+<div><small>2026 – atual</small><strong>Auxiliar de Logística</strong> · Farmix Distribuidora de Medicamentos</div>
+<div><small>2026</small><strong>Operador de Produção I</strong> · Saffran Linco</div>
+<div><small>2025 – 2026</small><strong>Auxiliar de Fundição III</strong> · Intercast</div>
+<div><small>2025</small><strong>Técnico de Telecomunicações I</strong> · Vero</div>
+<div><small>2024 – 2025</small><strong>Auxiliar Técnico em Telecomunicações</strong> · GOX Internet</div>
+<div><small>2023 – 2024</small><strong>Operador de Processo Industrial</strong> · CMA / CMP</div>
+<div><small>formação</small><strong>Engenharia de Software</strong> · UniCesumar (em andamento)<br><strong>Técnico em Logística</strong> · SENAC<br><strong>Pentest e Segurança Ofensiva</strong> · DESEC Security (em andamento)</div>
+</div>
+</section>
+
+<section id="contato" class="rv">
+<h2>contato</h2>
+<p>Aberto a conversas e oportunidades nas áreas de tecnologia, segurança, logística e operações.</p>
+<div class="btns"><a class="btn f" href="mailto:geovanemorais127@gmail.com">geovanemorais127@gmail.com</a><a class="btn" href="https://www.linkedin.com/in/geovanemorais37">LinkedIn</a><a class="btn" href="https://github.com/fawkesenginner">GitHub</a></div>
+</section>
+</main>
+<footer>© 2026 Geovane Morais de Sousa · Itaúna – MG · feito em modo hacker 💚</footer>
+<button id="top" aria-label="Voltar ao topo">↑</button>
+
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)},rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+/* matrix rain */
+var cv=$("#rain"),cx=cv.getContext("2d"),cols,drops,fs=16,ch="01アイウエオカキクセサ{}<>/;$#ABCDEF";
+function rs(){cv.width=innerWidth;cv.height=innerHeight;cols=Math.floor(cv.width/fs);drops=[];for(var i=0;i<cols;i++)drops[i]=Math.random()*-50}
+rs();addEventListener("resize",rs);
+if(!rm)setInterval(function(){cx.fillStyle="rgba(7,11,7,.08)";cx.fillRect(0,0,cv.width,cv.height);cx.fillStyle="#39ff7a";cx.font=fs+"px monospace";
+for(var i=0;i<cols;i++){cx.fillText(ch[Math.floor(Math.random()*ch.length)],i*fs,drops[i]*fs);if(drops[i]*fs>cv.height&&Math.random()>.975)drops[i]=0;drops[i]++}},55);
+/* typing */
+var roles=["Engenharia de Software","Segurança Ofensiva","Desenvolvedor C#","Entusiasta de Redes e Infra"],ri=0,ci=0,del=false,t=$("#typed");
+function ty(){var w=roles[ri];if(rm){t.textContent=roles.join(" · ");return}
+t.textContent=w.slice(0,ci);if(!del&&ci<w.length){ci++;setTimeout(ty,70)}else if(!del){del=true;setTimeout(ty,1400)}else if(ci>0){ci--;setTimeout(ty,35)}else{del=false;ri=(ri+1)%roles.length;setTimeout(ty,300)}}
+ty();
+/* counters */
+document.querySelectorAll("[data-n]").forEach(function(e){var n=+e.dataset.n,i=0,iv=setInterval(function(){i++;e.textContent=i;if(i>=n)clearInterval(iv)},rm?1:140)});
+/* reveal + nav active */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add("in2")})},{threshold:.12});
+document.querySelectorAll(".rv").forEach(function(e){io.observe(e)});
+var links=document.querySelectorAll("nav a"),secs=[].slice.call(document.querySelectorAll("section[id]"));
+/* scroll */
+addEventListener("scroll",function(){var h=document.documentElement,p=scrollY/(h.scrollHeight-innerHeight)*100;$("#bar").style.width=p+"%";$("#top").classList.toggle("s",scrollY>500);
+var cur="";secs.forEach(function(s){if(s.getBoundingClientRect().top<140)cur=s.id});links.forEach(function(a){a.classList.toggle("on",a.getAttribute("href")==="#"+cur)})},{passive:true});
+$("#top").onclick=function(){scrollTo({top:0})};
+/* terminal */
+var out=$("#out"),inp=$("#cmd"),hist=[],hi=0;
+var C={
+help:"comandos: help, about, skills, projects, contact, github, linkedin, whoami, ls, clear",
+about:"Geovane Morais de Sousa · Itaúna – MG\nEngenharia de Software (UniCesumar) + Pentest (DESEC Security).\nFoco: desenvolvimento seguro, redes e infraestrutura.",
+whoami:"geovane — dev em formação, pentester em treinamento.",
+skills:"[dev]   C#, .NET, WinForms, Git/GitHub, arquitetura\n[sec]   pentest, segurança ofensiva, TCP/IP\n[infra] Proxmox, pfSense, VLAN, telecom, hardware",
+projects:"1. CoreX-SCE — gestão empresarial em C# (em desenvolvimento)\n2. Homelab de Pentest — Proxmox + pfSense + VLAN (planejado)",
+contact:"e-mail:   geovanemorais127@gmail.com\nlinkedin: linkedin.com/in/geovanemorais37\ngithub:   github.com/fawkesenginner",
+ls:"sobre/  projetos/  skills/  trajetoria/  contato/"
+};
+function pr(s,c){var d=document.createElement("div");d.className=c||"";d.textContent=s;out.appendChild(d);out.scrollTop=out.scrollHeight}
+function run(v){v=v.trim();if(!v)return;pr("$ "+v,"c");hist.push(v);hi=hist.length;var l=v.toLowerCase();
+if(l==="clear"){out.innerHTML=""}
+else if(l==="github")open("https://github.com/fawkesenginner","_blank","noopener");
+else if(l==="linkedin")open("https://www.linkedin.com/in/geovanemorais37","_blank","noopener");
+else if(l.indexOf("sudo")===0)pr("geovane não está no arquivo sudoers. Este incidente será reportado. 😉","m");
+else if(C[l])pr(C[l]);
+else pr("comando não encontrado: "+v+" (tente help)","m")}
+pr("Bem-vindo! Digite help ou toque em um atalho abaixo.","m");
+inp.addEventListener("keydown",function(e){if(e.key==="Enter"){run(inp.value);inp.value=""}
+else if(e.key==="ArrowUp"&&hi>0){hi--;inp.value=hist[hi];e.preventDefault()}
+else if(e.key==="ArrowDown"){hi=Math.min(hi+1,hist.length);inp.value=hist[hi]||"";e.preventDefault()}});
+document.querySelectorAll(".chips button").forEach(function(b){b.onclick=function(){run(b.textContent)}});
+})();
+</script>
+</body>
+</html>
